@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup as bs
-import urllib3
+import urllib3,csv
 
 http = urllib3.PoolManager()
 url = 'https://pokemondb.net/pokedex/all'
@@ -14,5 +14,12 @@ for x in tr:
 	for y in range(len(td)):
 		temp.append(td[y].get_text().replace("\n",""))
 	data.append(temp)
-for x in data:
+
+for x in data[0:28]:
 	print(x)
+
+filename = "pokedex.csv"
+with open(filename, 'w', newline="") as csvfile:
+	csvwriter = csv.writer(csvfile)
+	csvwriter.writerow(["#","Name","Type","Total","HP","Attack","Defense","Sp.Atk","Sp.Def","Speed"])
+	csvwriter.writerows(data[0:28]) 
